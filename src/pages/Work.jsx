@@ -1,5 +1,5 @@
 // src/pages/Work.jsx
-import PageWrapper from "../components/Layout/PageWrapper";
+import PageWrapper from "../components/Layouts/PageWrapper.jsx";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
