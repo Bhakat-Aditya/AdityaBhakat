@@ -54,7 +54,31 @@ const skillSet = [
     type: "Middleware",
     level: 80,
     rarity: "Rare",
+    color: "from-crimson-400 to-gray-600",
+  },
+  {
+    id: 7,
+    name: "HTML",
+    type: "Markup Language",
+    level: 90,
+    rarity: "Common",
     color: "from-gray-400 to-gray-600",
+  },
+  {
+    id: 8,
+    name: "Css",
+    type: "Styling Language",
+    level: 70,
+    rarity: "Common",
+    color: "from-brown-400 to-pink-600",
+  },
+  {
+    id: 9,
+    name: "JavaScript",
+    type: "Programming Language",
+    level: 90,
+    rarity: "Common",
+    color: "from-yellow-400 to-cyan-600",
   },
 ];
 
@@ -69,6 +93,7 @@ const HoloCard = ({ skill }) => {
 
       // Mouse Move - 3D Tilt Calculation
       const handleMouseMove = (e) => {
+        if (window.innerWidth < 768) return;
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;

@@ -52,10 +52,13 @@ const Hero = () => {
         "-=0.5",
       );
 
-      // 5. Mouse Movement Parallax (Interactive)
+      // 5. Mouse Movement Parallax (Desktop Only Check)
       const handleMouseMove = (e) => {
+        // FIX: Only run on desktop to save mobile performance
+        if (window.innerWidth < 768) return;
+
         const { clientX, clientY } = e;
-        const xPos = (clientX / window.innerWidth - 0.5) * 20; // Range -10 to 10
+        const xPos = (clientX / window.innerWidth - 0.5) * 20;
         const yPos = (clientY / window.innerHeight - 0.5) * 20;
 
         gsap.to(".hero-content", {

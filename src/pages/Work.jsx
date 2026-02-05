@@ -42,13 +42,16 @@ const Work = () => {
 
   useGSAP(
     () => {
-      // 1. PIN THE MONITOR (Right Side)
+      // 1. PIN THE MONITOR (Desktop Only)
       ScrollTrigger.create({
         trigger: container.current,
         start: "top top",
         end: "bottom bottom",
         pin: rightSection.current,
         scrub: 1,
+        // Only pin if screen is wider than 768px
+        invalidateOnRefresh: true,
+        enabled: window.innerWidth > 768,
       });
 
       // 2. DETECT ACTIVE MISSION
@@ -60,7 +63,7 @@ const Work = () => {
           onToggle: (self) => {
             if (self.isActive) {
               setActiveMission(index);
-              // Glitch Effect on change
+              // Glitch Effect
               gsap.fromTo(
                 ".monitor-screen",
                 { filter: "brightness(2)", scale: 0.98 },
@@ -85,22 +88,36 @@ const Work = () => {
           <div
             key={index}
             id={`mission-${index}`}
-            className="h-screen flex flex-col justify-center px-12 border-r border-neutral-900"
+            className="min-h-[80vh] md:h-screen flex flex-col justify-center px-6 md:px-12 border-b md:border-b-0 md:border-r border-neutral-900 py-12 md:py-0"
           >
             <h3 className="text-red-500 font-mono text-sm mb-4">
               MISSION_{mission.id}
             </h3>
-            <h2 className="text-6xl font-black uppercase mb-6">
+            <h2 className="text-5xl md:text-6xl font-black uppercase mb-6 leading-tight">
               {mission.title}
             </h2>
-            <p className="text-neutral-400 text-lg mb-8 max-w-md">
+
+            {/* --- MOBILE ONLY PREVIEW --- */}
+            {/* This ensures mobile users see the visual/color too */}
+            <div
+              className={`block md:hidden w-full aspect-video rounded-lg mb-8 ${mission.color} relative overflow-hidden shadow-2xl`}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-mono text-xs text-white/50">
+                  PREVIEW RENDER
+                </span>
+              </div>
+            </div>
+
+            <p className="text-neutral-400 text-base md:text-lg mb-8 max-w-md leading-relaxed">
               {mission.description}
             </p>
-            <div className="flex gap-2">
+
+            <div className="flex flex-wrap gap-2">
               {mission.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 border border-neutral-800 rounded-full text-xs text-neutral-500"
+                  className="px-3 py-1 border border-neutral-800 rounded-full text-xs text-neutral-500 font-mono uppercase"
                 >
                   {tech}
                 </span>
@@ -110,13 +127,12 @@ const Work = () => {
         ))}
       </div>
 
-      {/* RIGHT: PINNED MONITOR */}
+      {/* RIGHT: PINNED MONITOR (Hidden on Mobile) */}
       <div
         ref={rightSection}
         className="hidden md:flex w-1/2 h-screen justify-center items-center bg-black/20 backdrop-blur-sm sticky top-0"
       >
         <div className="w-[80%] aspect-video bg-neutral-900 rounded-xl border border-neutral-800 p-2 relative overflow-hidden">
-          {/* Screen Content */}
           <div
             className={`monitor-screen w-full h-full rounded bg-neutral-800 relative overflow-hidden transition-colors duration-500 ${missions[activeMission].color}`}
           >
@@ -125,7 +141,6 @@ const Work = () => {
                 {missions[activeMission].title}
               </h1>
             </div>
-            {/* Scanlines */}
             <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[size:100%_4px] opacity-30 pointer-events-none"></div>
           </div>
         </div>
