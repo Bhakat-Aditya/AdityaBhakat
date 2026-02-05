@@ -151,7 +151,9 @@ const HoloCard = ({ skill }) => {
         {/* Progress Bar Animation */}
         <div className="w-full h-1 bg-neutral-800 rounded-full overflow-hidden mt-4">
           <div
-            className={`h-full bg-gradient-to-r ${skill.color} w-[${skill.level}%] shadow-[0_0_10px_currentColor]`}
+            // FIX: Use inline style for dynamic width. Tailwind cannot read `w-[${skill.level}%]`
+            style={{ width: `${skill.level}%` }}
+            className={`h-full bg-gradient-to-r ${skill.color} shadow-[0_0_10px_currentColor]`}
           ></div>
         </div>
       </div>
