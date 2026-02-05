@@ -192,16 +192,16 @@ const Skills = () => {
 
   useGSAP(
     () => {
-      // Reveal Animation: Cards slide in and fan out
+      // Reveal Animation
       gsap.from(".skill-card-wrapper", {
         scrollTrigger: {
           trigger: container.current,
-          start: "top 80%", // Starts when top of section hits 80% of viewport
+          start: "top 80%",
         },
         y: 100,
         opacity: 0,
         rotateX: -45,
-        stagger: 0.1, // Time between each card appearing
+        stagger: 0.1,
         duration: 1,
         ease: "back.out(1.7)",
       });
@@ -216,10 +216,11 @@ const Skills = () => {
     >
       {/* Section Header */}
       <div className="mb-20 border-l-4 border-red-600 pl-6">
-        <h2 className="text-6xl font-black uppercase tracking-tighter mb-2">
+        {/* FIX: Changed text-6xl to 'text-4xl md:text-6xl' */}
+        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-2 break-words">
           Weaponry <span className="text-neutral-600">&</span> Attributes
         </h2>
-        <p className="text-neutral-400 max-w-xl">
+        <p className="text-neutral-400 max-w-xl text-sm md:text-base">
           Current technical loadout prepared for deployment. Specialized in MERN
           stack architecture and high-performance frontend rendering.
         </p>
