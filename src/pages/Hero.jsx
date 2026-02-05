@@ -144,7 +144,7 @@ const Hero = () => {
               <p className="text-xs text-neutral-500 uppercase mb-1">
                 Main Weapon
               </p>
-              <p className="text-xl font-bold font-mono">React.js</p>
+              <p className="text-xl font-bold font-mono">GSAP Web Animation</p>
               <div className="stat-line w-full h-[2px] bg-yellow-600 mt-2"></div>
             </div>
           </div>

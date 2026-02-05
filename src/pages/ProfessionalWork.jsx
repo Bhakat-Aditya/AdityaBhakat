@@ -12,6 +12,8 @@ const clientWork = [
     year: "2025",
     desc: "Sports complex booking engine with admin dashboard.",
     color: "bg-green-900",
+    image: "/images/turf.jpg",
+    link: "https://powerplay-turf.com",
   },
   {
     id: "02",
@@ -20,6 +22,8 @@ const clientWork = [
     year: "2024",
     desc: "High-performance animation site for a premium cafe.",
     color: "bg-orange-900",
+    image: "/images/cafe.jpg",
+    link: "https://rainbowcafe.in",
   },
   {
     id: "03",
@@ -28,6 +32,8 @@ const clientWork = [
     year: "2024",
     desc: "Membership portal API and database schema design.",
     color: "bg-blue-900",
+    image: "/images/gym.jpg",
+    link: "#",
   },
   {
     id: "04",
@@ -36,6 +42,8 @@ const clientWork = [
     year: "2023",
     desc: "Redesigned corporate identity and landing pages.",
     color: "bg-indigo-900",
+    image: "/images/tech.jpg",
+    link: "#",
   },
 ];
 
@@ -89,7 +97,7 @@ const ProfessionalWork = () => {
 
   return (
     <>
-      {/* 🚨 FIX: Placed OUTSIDE the PageWrapper so 'fixed' positioning works */}
+      {/* --- FLOATING PREVIEW WINDOW --- */}
       <div
         ref={previewRef}
         className="fixed top-0 left-0 w-[300px] h-[200px] z-[999] pointer-events-none opacity-0 scale-0 origin-bottom-left"
@@ -103,17 +111,29 @@ const ProfessionalWork = () => {
               CLIENT_PREVIEW
             </span>
           </div>
+
           <div
-            className={`flex-1 ${activeJob?.color} relative p-4 flex items-center justify-center transition-colors duration-300`}
+            className={`flex-1 ${activeJob?.color} relative p-0 flex items-center justify-center transition-colors duration-300`}
           >
-            <h3 className="font-black text-2xl uppercase text-white/20 tracking-widest text-center">
+            {activeJob?.image ? (
+              <img
+                src={activeJob.image}
+                alt={activeJob.client}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }}
+              />
+            ) : null}
+
+            <h3 className="absolute z-10 font-black text-2xl uppercase text-white/20 tracking-widest text-center pointer-events-none">
               {activeJob?.client}
             </h3>
           </div>
         </div>
       </div>
 
-      {/* Page Content starts here */}
+      {/* --- PAGE CONTENT --- */}
       <PageWrapper>
         <div
           ref={container}
@@ -134,7 +154,7 @@ const ProfessionalWork = () => {
           <div className="hidden md:flex text-xs font-mono text-neutral-600 uppercase tracking-widest mb-6 px-4">
             <div className="w-1/4">Index // Year</div>
             <div className="w-2/4">Client // Role</div>
-            <div className="w-1/4">Deliverable</div>
+            <div className="w-1/5">Action</div>
           </div>
 
           {/* The List */}
@@ -142,14 +162,16 @@ const ProfessionalWork = () => {
             {clientWork.map((job) => (
               <div
                 key={job.id}
-                className="client-row group py-10 border-t border-neutral-800 flex flex-col md:flex-row md:items-baseline gap-4 md:gap-0 hover:bg-neutral-900/50 transition-colors cursor-default px-4 relative overflow-hidden"
+                className="client-row group py-10 border-t border-neutral-800 flex flex-col md:flex-row md:items-center gap-6 md:gap-0 hover:bg-neutral-900/50 transition-colors px-4 relative"
                 onMouseEnter={() => setActiveJob(job)}
                 onMouseLeave={() => setActiveJob(null)}
               >
+                {/* Column 1 */}
                 <div className="w-full md:w-1/4 font-mono text-neutral-500 text-sm group-hover:text-blue-500 transition-colors">
                   /{job.id} — {job.year}
                 </div>
 
+                {/* Column 2 */}
                 <div className="w-full md:w-2/4">
                   <h3 className="text-3xl font-bold uppercase mb-1 text-neutral-200 group-hover:text-white transition-colors">
                     {job.client}
@@ -159,10 +181,19 @@ const ProfessionalWork = () => {
                   </p>
                 </div>
 
-                <div className="w-full md:w-1/4 text-neutral-400 text-sm leading-relaxed">
-                  {job.desc}
+                {/* Column 3: Visit Button */}
+                <div className="w-full md:w-1/5 flex md:justify-end">
+                  <a
+                    href={job.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 border border-neutral-700 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 z-10"
+                  >
+                    View Case ↗
+                  </a>
                 </div>
 
+                {/* Hover Line */}
                 <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-blue-600 group-hover:w-full transition-all duration-500"></div>
               </div>
             ))}

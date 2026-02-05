@@ -6,32 +6,49 @@ import PageWrapper from "../components/Layouts/PageWrapper";
 
 const personalProjects = [
   {
-    id: "01",
-    title: "ShopKart",
-    stack: "MERN Stack",
-    desc: "Full E-commerce engine with Redux state management.",
-    color: "bg-blue-900",
-  },
-  {
-    id: "02",
-    title: "ChatApp v2",
-    stack: "Socket.io",
-    desc: "Real-time messaging with encrypted rooms.",
-    color: "bg-purple-900",
-  },
-  {
-    id: "03",
-    title: "WeatherOS",
-    stack: "React Native",
-    desc: "Mobile weather app using OpenWeather API.",
-    color: "bg-orange-900",
-  },
-  {
     id: "04",
-    title: "Portfolio v1",
-    stack: "HTML/CSS",
-    desc: "My first static portfolio website.",
+    title: "Color Palette Generator",
+    stack: "JavaScript & CSS",
+    desc: "Dynamic color palette tool with copy-to-clipboard feature.",
+    color: "bg-blue-900",
+    image: "/images/Color.png", 
+    link: "https://bhakat-aditya.github.io/Color-Palette-Generator/",
+  },
+  {
+    id: "05",
+    title: "Expense Tracker",
+    stack: "JavaScript & CSS & LocalStorage",
+    desc: "Personal finance tracker with category breakdown and monthly summaries.",
+    color: "bg-purple-900",
+    image: "/images/Expense.png",
+    link: "https://bhakat-aditya.github.io/Expense-Tracker/",
+  },
+  {
+    id: "06",
+    title: "Number Guessing Game",
+    stack: "JavaScript & CSS",
+    desc: "Classic number guessing game with difficulty levels and score tracking.",
+    color: "bg-orange-900",
+    image: "/images/GuessNumber.png",
+    link: "https://bhakat-aditya.github.io/guess-the-number/",
+  },
+  {
+    id: "07",
+    title: "Happy Tummy Cafe",
+    stack: "HTML & CSS & JavaScript & multiple pages",
+    desc: "Responsive cafe website with menu, reservation form, and interactive UI elements.",
     color: "bg-neutral-800",
+    image: "/images/HappyTummy.png",
+    link: "https://bhakat-aditya.github.io/Happy-Tummy-Cafe/",
+  },
+  {
+    id: "08",
+    title: "Myntra Clone",
+    stack: "HTML & CSS & JavaScript",
+    desc: "E-commerce frontend clone of Myntra",
+    color: "bg-neutral-800",
+    image: "/images/MyntraClone.png",
+    link: "https://bhakat-aditya.github.io/Myntra-Clone/",
   },
 ];
 
@@ -61,8 +78,8 @@ const MyProjects = () => {
 
       // Move the preview to follow mouse
       gsap.to(previewRef.current, {
-        x: e.clientX + 20, // Offset to right
-        y: e.clientY - 100, // Offset to center vertically
+        x: e.clientX + 20,
+        y: e.clientY - 100,
         duration: 0.2,
         ease: "power2.out",
       });
@@ -88,7 +105,7 @@ const MyProjects = () => {
 
   return (
     <>
-      {/* 🚨 FIX: Placed OUTSIDE PageWrapper so it doesn't scroll with the page transform */}
+      {/* --- FLOATING PREVIEW WINDOW (Outside PageWrapper) --- */}
       <div
         ref={previewRef}
         className="fixed top-0 left-0 w-[300px] h-[200px] z-[999] pointer-events-none opacity-0 scale-0 origin-bottom-left"
@@ -104,18 +121,30 @@ const MyProjects = () => {
             </span>
           </div>
 
-          {/* Window Content */}
+          {/* Window Content (Image or Color Fallback) */}
           <div
-            className={`flex-1 ${activeProject?.color} relative p-4 flex items-center justify-center transition-colors duration-300`}
+            className={`flex-1 ${activeProject?.color} relative p-0 flex items-center justify-center transition-colors duration-300`}
           >
-            <h3 className="font-black text-2xl uppercase text-white/20 tracking-widest transform -rotate-12 text-center">
+            {activeProject?.image ? (
+              <img
+                src={activeProject.image}
+                alt={activeProject.title}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }} // Hide if image missing
+              />
+            ) : null}
+
+            {/* Overlay Text (Visible if image fails or loading) */}
+            <h3 className="absolute z-10 font-black text-2xl uppercase text-white/20 tracking-widest transform -rotate-12 text-center pointer-events-none">
               {activeProject?.title}
             </h3>
           </div>
         </div>
       </div>
 
-      {/* Page Content Starts Here */}
+      {/* --- MAIN PAGE CONTENT --- */}
       <PageWrapper>
         <div
           ref={container}
@@ -136,7 +165,7 @@ const MyProjects = () => {
           <div className="hidden md:flex text-xs font-mono text-neutral-600 uppercase tracking-widest mb-6 px-4">
             <div className="w-1/4">ID // Stack</div>
             <div className="w-2/4">Project Name</div>
-            <div className="w-1/4">Description</div>
+            <div className="w-1/5">Action</div>
           </div>
 
           {/* The List */}
@@ -144,10 +173,11 @@ const MyProjects = () => {
             {personalProjects.map((project) => (
               <div
                 key={project.id}
-                className="project-row group py-10 border-t border-neutral-800 flex flex-col md:flex-row md:items-baseline gap-4 md:gap-0 hover:bg-neutral-900/50 transition-colors cursor-pointer px-4 relative"
+                className="project-row group py-10 border-t border-neutral-800 flex flex-col md:flex-row md:items-center gap-6 md:gap-0 hover:bg-neutral-900/50 transition-colors px-4 relative"
                 onMouseEnter={() => setActiveProject(project)}
                 onMouseLeave={() => setActiveProject(null)}
               >
+                {/* Column 1: ID & Stack */}
                 <div className="w-full md:w-1/4 font-mono text-neutral-500 text-sm group-hover:text-red-500 transition-colors">
                   /{project.id} —{" "}
                   <span className="text-xs uppercase border border-neutral-800 px-1 rounded">
@@ -155,17 +185,29 @@ const MyProjects = () => {
                   </span>
                 </div>
 
+                {/* Column 2: Title & Desc */}
                 <div className="w-full md:w-2/4">
-                  <h3 className="text-4xl font-black uppercase mb-1 text-neutral-200 group-hover:text-white transition-colors">
+                  <h3 className="text-4xl font-black uppercase mb-2 text-neutral-200 group-hover:text-white transition-colors">
                     {project.title}
                   </h3>
+                  <p className="text-neutral-400 text-sm leading-relaxed max-w-md">
+                    {project.desc}
+                  </p>
                 </div>
 
-                <div className="w-full md:w-1/4 text-neutral-400 text-sm leading-relaxed">
-                  {project.desc}
+                {/* Column 3: Visit Button */}
+                <div className="w-full md:w-1/5 flex md:justify-end">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 border border-neutral-700 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 z-10"
+                  >
+                    Visit Site ↗
+                  </a>
                 </div>
 
-                {/* Hover Line */}
+                {/* Hover Line Animation */}
                 <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-red-600 group-hover:w-full transition-all duration-500"></div>
               </div>
             ))}
