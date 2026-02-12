@@ -15,7 +15,6 @@ import Footer from "./components/Layouts/Footer"; // Import Footer
 import Hero from "./pages/Hero";
 import Skills from "./pages/Skills";
 import Work from "./pages/Work";
-import Contact from "./pages/Contact";
 import MyProjects from "./pages/MyProjects";
 import ProfessionalWork from "./pages/ProfessionalWork";
 import About from "./pages/About"; // Import About
@@ -84,7 +83,6 @@ function AppContent() {
                 <Hero />
                 <Skills />
                 <Work />
-                <Contact />
               </>
             }
           />
