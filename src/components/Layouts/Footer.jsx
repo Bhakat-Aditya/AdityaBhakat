@@ -100,12 +100,20 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-500 transition-colors">
+                <a
+                  href="https://www.linkedin.com/in/aditya-bhakat-anshu/"
+                  target="_blank"
+                  className="hover:text-blue-500 transition-colors"
+                >
                   LinkedIn
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-500 transition-colors">
+                <a
+                  href="https://x.com/ADITYABHAK4172"
+                  target="_blank"
+                  className="hover:text-blue-500 transition-colors"
+                >
                   Twitter / X
                 </a>
               </li>
