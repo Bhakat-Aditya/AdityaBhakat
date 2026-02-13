@@ -48,27 +48,27 @@ const About = () => {
 
   useGSAP(
     () => {
-      // 1. Image & ID Card Reveal (Using fromTo for safety)
+      // 1. Image & ID Card Reveal
       gsap.fromTo(
         ".profile-section",
-        { x: -50, opacity: 0 },
+        { x: -30, opacity: 0 }, // Reduced distance for mobile
         {
           x: 0,
           opacity: 1,
-          duration: 1.2,
+          duration: 1, // Slightly faster
           ease: "power3.out",
         },
       );
 
-      // 2. Text Reveal (Using fromTo for safety)
+      // 2. Text Reveal
       gsap.fromTo(
         ".bio-text",
-        { x: 50, opacity: 0 },
+        { x: 30, opacity: 0 },
         {
           x: 0,
           opacity: 1,
           stagger: 0.1,
-          duration: 1.2,
+          duration: 1,
           ease: "power3.out",
           delay: 0.2,
         },
@@ -77,22 +77,22 @@ const About = () => {
       // 3. Timeline Animation
       gsap.fromTo(
         ".timeline-item",
-        { y: 50, opacity: 0 }, // Start State
+        { y: 30, opacity: 0 },
         {
           y: 0,
-          opacity: 1, // End State
-          stagger: 0.2,
-          duration: 1,
-          ease: "back.out(1.7)",
+          opacity: 1,
+          stagger: 0.15, // Faster stagger
+          duration: 0.8,
+          ease: "back.out(1.2)", // Less bouncy for performance
           scrollTrigger: {
             trigger: ".timeline-section",
-            start: "top 80%",
+            start: "top 85%", // Triggers earlier
             toggleActions: "play none none reverse",
           },
         },
       );
 
-      // 4. Center Line Animation
+      // 4. Center Line Animation (Desktop Only Logic handled by CSS mostly)
       gsap.fromTo(
         ".timeline-line",
         { scaleY: 0, transformOrigin: "top" },
@@ -114,30 +114,30 @@ const About = () => {
     <PageWrapper>
       <div
         ref={container}
-        className="min-h-screen bg-[#050505] text-white pt-32 px-4 md:px-20 pb-20 overflow-hidden"
+        className="min-h-screen bg-[#050505] text-white pt-24 px-4 md:px-20 pb-20 overflow-hidden"
       >
-        {/* --- BACKGROUND AMBIENCE --- */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+        {/* --- BACKGROUND AMBIENCE (OPTIMIZED) --- */}
+        {/* Hidden on mobile (hidden), visible on desktop (md:block) to save GPU */}
+        <div className="hidden md:block absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="hidden md:block absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-900/10 rounded-full blur-[120px] pointer-events-none"></div>
 
         {/* --- MAIN SPLIT LAYOUT --- */}
-        <div className="flex flex-col lg:flex-row gap-16 mb-32 items-start">
+        <div className="flex flex-col lg:flex-row gap-12 mb-24 items-start">
           {/* LEFT COL: PHOTO & CONTACT ID */}
-          <div className="profile-section w-full lg:w-[400px] flex-shrink-0 flex flex-col gap-6">
+          {/* Added will-change-transform for GPU optimization */}
+          <div className="profile-section w-full lg:w-[400px] flex-shrink-0 flex flex-col gap-6 will-change-transform">
             {/* 1. PORTRAIT CONTAINER */}
-            <div className="relative group">
-              {/* Glowing Frame */}
-              <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 via-transparent to-red-500 rounded-2xl blur opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+            <div className="relative group mx-auto lg:mx-0 max-w-[300px] lg:max-w-none">
+              <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 via-transparent to-red-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000"></div>
 
               <div className="relative w-full aspect-square bg-neutral-900 rounded-xl overflow-hidden border border-white/10 shadow-2xl">
-                {/* Your Image */}
                 <img
                   src="https://res.cloudinary.com/adityabhakat/image/upload/v1770916989/dp_q5ij56.jpg"
                   alt="Aditya Bhakat"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
+                  loading="lazy"
                 />
 
-                {/* Tech Overlay */}
                 <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/90 to-transparent">
                   <p className="font-mono text-xs text-blue-400">
                     ID: ADITYA_BHAKAT
@@ -150,7 +150,8 @@ const About = () => {
             </div>
 
             {/* 2. CONTACT / INFO CARD */}
-            <div className="w-full bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 space-y-4">
+            {/* Removed backdrop-blur on mobile to prevent lag */}
+            <div className="w-full bg-neutral-900/80 md:bg-white/5 md:backdrop-blur-md border border-white/10 rounded-xl p-6 space-y-4">
               <h4 className="text-sm font-bold uppercase tracking-widest text-neutral-400 border-b border-white/5 pb-2">
                 Personal_Data
               </h4>
@@ -162,7 +163,7 @@ const About = () => {
                   <span className="text-neutral-500 text-sm font-mono flex items-center gap-2">
                     {stat.icon} {stat.label}
                   </span>
-                  <span className="text-white text-sm font-bold text-right group-hover:text-blue-400 transition-colors">
+                  <span className="text-white text-sm font-bold text-right group-hover:text-blue-400 transition-colors break-words max-w-[60%]">
                     {stat.value}
                   </span>
                 </div>
@@ -171,7 +172,7 @@ const About = () => {
           </div>
 
           {/* RIGHT COL: THE BIOGRAPHY */}
-          <div className="w-full flex flex-col justify-center pt-4">
+          <div className="w-full flex flex-col justify-center pt-4 will-change-transform">
             <h1 className="bio-text text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8 leading-[0.9]">
               The{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-500">
@@ -247,13 +248,13 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
-            {/* Center Line */}
+            {/* Center Line (Hidden on mobile) */}
             <div className="timeline-line hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-blue-500 via-purple-500 to-transparent -translate-x-1/2 origin-top"></div>
 
             {education.map((item, index) => (
               <div
                 key={index}
-                className={`timeline-item relative p-8 bg-neutral-900/50 border border-white/5 rounded-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-2 ${index % 2 === 0 ? "md:mr-12 md:text-right" : "md:ml-12 md:mt-24"}`}
+                className={`timeline-item relative p-8 bg-neutral-900/50 border border-white/5 rounded-2xl hover:border-white/20 transition-all duration-500 will-change-transform hover:-translate-y-1 ${index % 2 === 0 ? "md:mr-12 md:text-right" : "md:ml-12 md:mt-24"}`}
               >
                 {/* Connecting Dot */}
                 <div
