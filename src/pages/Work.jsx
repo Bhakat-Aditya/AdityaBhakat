@@ -14,15 +14,15 @@ const missions = [
     description:
       "Full-scale MERN stack platform with dynamic rendering and secure auth.",
     stack: ["React", "Node", "Mongo"],
-    color: "bg-blue-600",
+    img: "/images/shopkart.png", // Using MyntraClone as ShopKart placeholder
   },
   {
     id: "02",
     title: "Rainbow Cafe",
     category: "Hospitality",
-    description: "Sensory-focused UI with smooth scroll and reservation logic.",
-    stack: ["GSAP", "React", "Firebase"],
-    color: "bg-orange-500",
+    description: "Sensory-focused UI with smooth scroll",
+    stack: ["GSAP", "React"],
+    img: "/images/rainbow.png", // Using Mojito for Cafe
   },
   {
     id: "03",
@@ -30,8 +30,8 @@ const missions = [
     category: "Business Logic",
     description:
       "Sports turf management system with booking slots and admin dashboard.",
-    stack: ["MERN", "Twilio", "Chart.js"],
-    color: "bg-green-600",
+    stack: ["MongoDB", "Express", "GSAP", "React"],
+    img: "/images/powerplay.png", // Using Gaming for Turf
   },
 ];
 
@@ -63,11 +63,15 @@ const Work = () => {
           onToggle: (self) => {
             if (self.isActive) {
               setActiveMission(index);
-              // Glitch Effect
+              // Glitch Effect on Image Change
               gsap.fromTo(
                 ".monitor-screen",
-                { filter: "brightness(2)", scale: 0.98 },
-                { filter: "brightness(1)", scale: 1, duration: 0.2 },
+                { filter: "brightness(1.5) contrast(1.2)", scale: 0.98 },
+                {
+                  filter: "brightness(1) contrast(1)",
+                  scale: 1,
+                  duration: 0.2,
+                },
               );
             }
           },
@@ -98,13 +102,16 @@ const Work = () => {
             </h2>
 
             {/* --- MOBILE ONLY PREVIEW --- */}
-            {/* This ensures mobile users see the visual/color too */}
-            <div
-              className={`block md:hidden w-full aspect-video rounded-lg mb-8 ${mission.color} relative overflow-hidden shadow-2xl`}
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-mono text-xs text-white/50">
-                  PREVIEW RENDER
+            <div className="block md:hidden w-full aspect-video rounded-lg mb-8 bg-neutral-900 relative overflow-hidden shadow-2xl border border-neutral-800">
+              <img
+                src={mission.img}
+                alt={mission.title}
+                className="w-full h-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div className="absolute bottom-2 right-2">
+                <span className="font-mono text-[10px] text-white/50 border border-white/20 px-2 py-1 rounded">
+                  IMG_PREVIEW
                 </span>
               </div>
             </div>
@@ -117,7 +124,7 @@ const Work = () => {
               {mission.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 border border-neutral-800 rounded-full text-xs text-neutral-500 font-mono uppercase"
+                  className="px-3 py-1 border border-neutral-800 rounded-full text-xs text-neutral-500 font-mono uppercase hover:border-red-500/50 hover:text-red-400 transition-colors cursor-default"
                 >
                   {tech}
                 </span>
@@ -132,16 +139,32 @@ const Work = () => {
         ref={rightSection}
         className="hidden md:flex w-1/2 h-screen justify-center items-center bg-black/20 backdrop-blur-sm sticky top-0"
       >
-        <div className="w-[80%] aspect-video bg-neutral-900 rounded-xl border border-neutral-800 p-2 relative overflow-hidden">
-          <div
-            className={`monitor-screen w-full h-full rounded bg-neutral-800 relative overflow-hidden transition-colors duration-500 ${missions[activeMission].color}`}
-          >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <h1 className="text-4xl font-black text-white/20 uppercase tracking-widest">
+        {/* Monitor Frame */}
+        <div className="w-[85%] aspect-video bg-neutral-900 rounded-xl border border-neutral-800 p-3 relative overflow-hidden shadow-2xl">
+          {/* Top Bar Decoration */}
+          <div className="absolute top-0 left-0 w-full h-1 bg-red-600/20 z-20"></div>
+
+          {/* THE SCREEN */}
+          <div className="monitor-screen w-full h-full rounded bg-black relative overflow-hidden group">
+            {/* Project Image */}
+            <img
+              src={missions[activeMission].img}
+              alt={missions[activeMission].title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+
+            {/* Overlay Text */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+              <h1 className="text-4xl font-black text-white uppercase tracking-widest border-b-2 border-red-500 pb-2">
                 {missions[activeMission].title}
               </h1>
             </div>
-            <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[size:100%_4px] opacity-30 pointer-events-none"></div>
+
+            {/* CRT Scanline Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[size:100%_4px] opacity-30 pointer-events-none z-10"></div>
+
+            {/* Vignette */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.6)_100%)] pointer-events-none z-10"></div>
           </div>
         </div>
       </div>

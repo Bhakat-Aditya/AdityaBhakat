@@ -74,7 +74,7 @@ const About = () => {
         },
       );
 
-      // 3. Timeline Animation - FIXED: "fromTo" prevents the stuck visibility bug
+      // 3. Timeline Animation
       gsap.fromTo(
         ".timeline-item",
         { y: 50, opacity: 0 }, // Start State
@@ -86,8 +86,8 @@ const About = () => {
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: ".timeline-section",
-            start: "top 80%", // Triggers a bit earlier so you don't miss it
-            toggleActions: "play none none reverse", // Replays if you scroll up
+            start: "top 80%",
+            toggleActions: "play none none reverse",
           },
         },
       );
@@ -149,7 +149,7 @@ const About = () => {
               </div>
             </div>
 
-            {/* 2. CONTACT / INFO CARD (Glassmorphism) */}
+            {/* 2. CONTACT / INFO CARD */}
             <div className="w-full bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 space-y-4">
               <h4 className="text-sm font-bold uppercase tracking-widest text-neutral-400 border-b border-white/5 pb-2">
                 Personal_Data
@@ -247,7 +247,7 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
-            {/* Center Line (Hidden on mobile) - Added timeline-line class for animation */}
+            {/* Center Line */}
             <div className="timeline-line hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-blue-500 via-purple-500 to-transparent -translate-x-1/2 origin-top"></div>
 
             {education.map((item, index) => (

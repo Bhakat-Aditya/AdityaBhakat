@@ -6,7 +6,7 @@ import PageWrapper from "../components/Layouts/PageWrapper";
 
 const personalProjects = [
   {
-    id: "04",
+    id: "01",
     title: "Color Palette Generator",
     stack: "JavaScript & CSS",
     desc: "Dynamic color palette tool with copy-to-clipboard feature.",
@@ -15,7 +15,7 @@ const personalProjects = [
     link: "https://bhakat-aditya.github.io/Color-Palette-Generator/",
   },
   {
-    id: "05",
+    id: "02",
     title: "Expense Tracker",
     stack: "JavaScript & CSS & LocalStorage",
     desc: "Personal finance tracker with category breakdown and monthly summaries.",
@@ -24,7 +24,7 @@ const personalProjects = [
     link: "https://bhakat-aditya.github.io/Expense-Tracker/",
   },
   {
-    id: "06",
+    id: "03",
     title: "Number Guessing Game",
     stack: "JavaScript & CSS",
     desc: "Classic number guessing game with difficulty levels and score tracking.",
@@ -33,7 +33,7 @@ const personalProjects = [
     link: "https://bhakat-aditya.github.io/guess-the-number/",
   },
   {
-    id: "07",
+    id: "04",
     title: "Happy Tummy Cafe",
     stack: "HTML & CSS & JavaScript & multiple pages",
     desc: "Responsive cafe website with menu, reservation form, and interactive UI elements.",
@@ -42,7 +42,7 @@ const personalProjects = [
     link: "https://bhakat-aditya.github.io/Happy-Tummy-Cafe/",
   },
   {
-    id: "08",
+    id: "05",
     title: "Myntra Clone",
     stack: "HTML & CSS & JavaScript",
     desc: "E-commerce frontend clone of Myntra",
