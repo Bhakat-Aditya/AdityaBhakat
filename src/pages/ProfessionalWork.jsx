@@ -50,10 +50,20 @@ const clientWork = [
     client: "Time For Woodfire",
     role: "E-Commerce",
     year: "2026",
-    desc: "Frontend for a woodfire pizza place with menu and reservation system.",
+    desc: "Frontend for a woodfire pizza place with menu, gallery, and contact info.",
     color: "bg-indigo-900",
     image: "/images/woodfire.png",
     link: "https://time-for-woodfire.vercel.app/",
+  },
+  {
+    id: "06",
+    client: "Wow Wow Cafe",
+    role: "E-Commerce",
+    year: "2026",
+    desc: "Frontend for a trendy cafe with menu, gallery, and contact info.",
+    color: "bg-indigo-900",
+    image: "/images/wowwow.png",
+    link: "https://wowwowcafe.vercel.app/",
   },
 ];
 
