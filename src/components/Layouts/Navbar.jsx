@@ -8,12 +8,13 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   // Helper for class names
-  const linkClass = (path, color) =>
-    `relative z-10 block px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-mono uppercase tracking-widest transition-all duration-300 cursor-pointer ${
-      isActive(path)
-        ? `bg-${color}-600 text-white font-bold shadow-[0_0_20px_rgba(0,0,0,0.5)]`
-        : `text-neutral-400 hover:text-${color}-500 hover:bg-white/5`
-    }`;
+  // src/components/Layouts/Navbar.jsx
+const linkClass = (path, color) =>
+  `relative z-10 block px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-mono uppercase tracking-widest transition-all duration-300 ${
+    isActive(path)
+      ? `bg-${color}-600 text-white font-bold shadow-[0_0_20px_rgba(0,0,0,0.5)]`
+      : `text-neutral-400 hover:text-${color}-500 hover:bg-white/5`
+  }`;
 
   return (
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-auto">

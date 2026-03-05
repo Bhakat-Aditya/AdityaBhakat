@@ -45,17 +45,25 @@ function AppContent() {
     requestAnimationFrame(raf);
   }, []);
 
+  // src/App.jsx
   useEffect(() => {
     const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    // Tell GSAP to handle the -50% centering so it doesn't conflict with Tailwind
+    gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+
     const moveCursor = (e) => {
-      if (!cursor || window.innerWidth < 768) return;
+      if (window.innerWidth < 768) return;
+
+      // Use duration: 0 for instant, sticky movement
       gsap.to(cursor, {
         x: e.clientX,
         y: e.clientY,
-        duration: 0.1,
-        ease: "power2.out",
+        duration: 0,
       });
     };
+
     window.addEventListener("mousemove", moveCursor);
     return () => window.removeEventListener("mousemove", moveCursor);
   }, []);
@@ -68,7 +76,8 @@ function AppContent() {
       {/* Custom Cursor */}
       <div
         ref={cursorRef}
-        className="hidden md:block fixed top-0 left-0 w-8 h-8 border border-white rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
+        // Removed: -translate-x-1/2 -translate-y-1/2
+        className="hidden md:block fixed top-0 left-0 w-8 h-8 border border-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
       >
         <div className="w-1 h-1 bg-white rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
       </div>

@@ -85,9 +85,17 @@ const ProfessionalWork = () => {
     { scope: container },
   );
 
-  // --- FLOATING PREVIEW LOGIC ---
+  // src/pages/ProfessionalWork.jsx
+
+  // 1. Add a ref to store the latest mouse coordinates
+  const mousePos = useRef({ x: 0, y: 0 });
+
+  // --- FLOATING PREVIEW LOGIC WITH SCROLL FIX ---
   useEffect(() => {
     const movePreview = (e) => {
+      // Save coordinates to use during scroll
+      mousePos.current = { x: e.clientX, y: e.clientY };
+
       if (!previewRef.current) return;
 
       gsap.to(previewRef.current, {
@@ -98,8 +106,32 @@ const ProfessionalWork = () => {
       });
     };
 
+    const handleScroll = () => {
+      const { x, y } = mousePos.current;
+      if (x === 0 && y === 0) return;
+
+      // Manually check what element is under the cursor during the scroll
+      const hoveredElement = document.elementFromPoint(x, y);
+      const row = hoveredElement?.closest(".client-row");
+
+      if (row) {
+        // If the cursor is over a project row, show its image
+        const jobId = row.getAttribute("data-job-id");
+        const job = clientWork.find((j) => j.id === jobId);
+        if (job) setActiveJob(job);
+      } else {
+        // If the cursor is over a blank area, hide the image
+        setActiveJob(null);
+      }
+    };
+
     window.addEventListener("mousemove", movePreview);
-    return () => window.removeEventListener("mousemove", movePreview);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", movePreview);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -179,44 +211,68 @@ const ProfessionalWork = () => {
 
           {/* The List */}
           <div className="flex flex-col">
-            {clientWork.map((job) => (
-              <div
-                key={job.id}
-                className="client-row group py-10 border-t border-neutral-800 flex flex-col md:flex-row md:items-center gap-6 md:gap-0 hover:bg-neutral-900/50 transition-colors px-4 relative"
-                onMouseEnter={() => setActiveJob(job)}
-                onMouseLeave={() => setActiveJob(null)}
-              >
-                {/* Column 1 */}
-                <div className="w-full md:w-1/4 font-mono text-neutral-500 text-sm group-hover:text-blue-500 transition-colors">
-                  /{job.id} — {job.year}
-                </div>
+            {clientWork.map((job) => {
+              // Determine if this specific row is the active one
+              const isActive = activeJob?.id === job.id;
 
-                {/* Column 2 */}
-                <div className="w-full md:w-2/4">
-                  <h3 className="text-3xl font-bold uppercase mb-1 text-neutral-200 group-hover:text-white transition-colors">
-                    {job.client}
-                  </h3>
-                  <p className="text-neutral-500 text-xs font-mono">
-                    {job.role}
-                  </p>
-                </div>
-
-                {/* Column 3: Visit Button */}
-                <div className="w-full md:w-1/5 flex md:justify-end">
-                  <a
-                    href={job.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-3 border border-neutral-700 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 z-10"
+              return (
+                <div
+                  key={job.id}
+                  data-job-id={job.id}
+                  // Removed 'group' and replaced 'hover:bg...' with conditional class
+                  className={`client-row py-10 border-t border-neutral-800 flex flex-col md:flex-row md:items-center gap-6 md:gap-0 transition-colors px-4 relative ${
+                    isActive ? "bg-neutral-900/50" : ""
+                  }`}
+                  onMouseEnter={() => setActiveJob(job)}
+                  onMouseLeave={() => setActiveJob(null)}
+                >
+                  {/* Column 1 */}
+                  {/* Replaced 'group-hover:text-blue-500' with conditional text color */}
+                  <div
+                    className={`w-full md:w-1/4 font-mono text-sm transition-colors ${
+                      isActive ? "text-blue-500" : "text-neutral-500"
+                    }`}
                   >
-                    View Case ↗
-                  </a>
-                </div>
+                    /{job.id} — {job.year}
+                  </div>
 
-                {/* Hover Line */}
-                <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-blue-600 group-hover:w-full transition-all duration-500"></div>
-              </div>
-            ))}
+                  {/* Column 2 */}
+                  <div className="w-full md:w-2/4">
+                    {/* Replaced 'group-hover:text-white' with conditional text color */}
+                    <h3
+                      className={`text-3xl font-bold uppercase mb-1 transition-colors ${
+                        isActive ? "text-white" : "text-neutral-200"
+                      }`}
+                    >
+                      {job.client}
+                    </h3>
+                    <p className="text-neutral-500 text-xs font-mono">
+                      {job.role}
+                    </p>
+                  </div>
+
+                  {/* Column 3: Visit Button */}
+                  <div className="w-full md:w-1/5 flex md:justify-end">
+                    <a
+                      href={job.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-3 border border-neutral-700 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 z-10"
+                    >
+                      View Case ↗
+                    </a>
+                  </div>
+
+                  {/* Hover Line */}
+                  {/* Replaced 'group-hover:w-full' with conditional width (w-full vs w-0) */}
+                  <div
+                    className={`absolute bottom-0 left-0 h-[1px] bg-blue-600 transition-all duration-500 ${
+                      isActive ? "w-full" : "w-0"
+                    }`}
+                  ></div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </PageWrapper>

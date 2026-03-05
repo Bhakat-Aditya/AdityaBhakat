@@ -15,3 +15,11 @@ body {
 
 *{
   user-select: none;}
+
+
+  /* Add this to the bottom of src/index.css */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
