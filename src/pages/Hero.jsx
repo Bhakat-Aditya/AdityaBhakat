@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import DownloadResume from "../components/Animations/DownloadResume"; // Imported the new button
 
 const Hero = () => {
   const container = useRef();
@@ -147,6 +148,11 @@ const Hero = () => {
               <p className="text-xl font-bold font-mono">GSAP Web Animation</p>
               <div className="stat-line w-full h-[2px] bg-yellow-600 mt-2"></div>
             </div>
+          </div>
+
+          {/* DOWNLOAD RESUME BUTTON INTEGRATION */}
+          <div className="mt-6">
+            <DownloadResume driveLink="https://drive.google.com/file/d/1PWto9Tt7iCWLheadVDxJ4e7OoEQppfSg/view?usp=sharing" />
           </div>
         </div>
       </div>
